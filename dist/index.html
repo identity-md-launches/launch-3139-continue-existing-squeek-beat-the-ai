@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f6f2" />
+    <title>Squeek Beat-the-AI Predictor</title>
+    <meta
+      name="description"
+      content="A small hamster. A clever rival. Predict Squeektoshi’s next settled round and outguess Professor Whiskers. Free, local, and just for points."
+    />
+    <meta property="og:title" content="Squeek Beat-the-AI Predictor" />
+    <meta
+      property="og:description"
+      content="Can you outguess Professor Whiskers? A community hamster prediction game. Points only. No account or wallet."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="./social.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="imd-attribution"
+      content="Built through the IdentityMD contributor network · imd.fun"
+    />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <!-- Boot screen styles are inline so the loading and error screens show even if the CSS bundle fails. -->
+    <style>
+      html { background: #f7f6f2; }
+      .boot {
+        min-height: 100vh; min-height: 100dvh; box-sizing: border-box;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: 16px; padding: 24px; text-align: center;
+        font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; color: #302d29;
+      }
+      .boot h1 { margin: 0; font-size: 28px; line-height: 1.15; }
+      .boot p { margin: 0; max-width: 34ch; color: #686258; }
+      .boot-wheel {
+        width: 56px; height: 56px; border-radius: 50%; box-sizing: border-box;
+        border: 6px solid #e4dfd5; border-top-color: #be4729;
+        animation: boot-spin 1s linear infinite;
+      }
+      .boot-slow { opacity: 0; animation: boot-show 0.3s ease 12s forwards; font-size: 14px; }
+      .boot a, .boot button {
+        color: #fffefa; background: #be4729; border: 0; border-radius: 10px;
+        min-height: 44px; padding: 10px 20px; font-family: inherit; font-size: 16px; font-weight: 600; line-height: 1.2;
+        text-decoration: none; cursor: pointer; display: inline-flex; align-items: center;
+      }
+      .boot a:focus-visible, .boot button:focus-visible { outline: 3px solid #246d99; outline-offset: 3px; }
+      .boot-slow a { margin-top: 8px; }
+      .boot small { color: #686258; font-size: 12px; max-width: 46ch; overflow-wrap: anywhere; }
+      @keyframes boot-spin { to { transform: rotate(360deg); } }
+      @keyframes boot-show { to { opacity: 1; } }
+      @media (prefers-reduced-motion: reduce) { .boot-wheel { animation: none; } }
+    </style>
+    <script type="module" crossorigin src="./assets/index-BZxXIndT.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/api-schemas-BPLM_2FH.js">
+    <link rel="stylesheet" crossorigin href="./assets/index-DKU_QHBO.css">
+  </head>
+  <body>
+    <div id="root">
+      <div class="boot" role="status" aria-live="polite">
+        <div class="boot-wheel" aria-hidden="true"></div>
+        <h1>Squeek Beat-the-AI Predictor</h1>
+        <p>Waking the hamster and loading the game…</p>
+        <p class="boot-slow">
+          Taking longer than usual?<br />
+          <a href="./index.html">Reload the game</a>
+        </p>
+      </div>
+    </div>
+    <noscript>
+      <style>#root { display: none; }</style>
+      <div class="boot">
+        <h1>Squeek Beat-the-AI Predictor</h1>
+        <p>This game needs JavaScript. Turn it on and reload to play.</p>
+        <a href="./index.html">Reload the game</a>
+      </div>
+    </noscript>
+    <script>
+      // Boot guard: if the app has not mounted, show an error screen with a retry button
+      // instead of a blank page. src/main.tsx calls window.squeekBoot.mounted() / .fail().
+      (function () {
+        var done = false;
+        function retry() {
+          var url = location.pathname + "?retry=" + Date.now() + location.hash;
+          location.replace(url);
+        }
+        function fail(reason) {
+          if (done) return;
+          done = true;
+          var root = document.getElementById("root");
+          if (!root) return;
+          root.innerHTML =
+            '<div class="boot" role="alert">' +
+            "<h1>The game didn’t start</h1>" +
+            "<p>Something stopped the page from loading. Your saved calls are safe in this browser.</p>" +
+            '<button type="button" id="boot-retry">Try again</button>' +
+            "<small></small></div>";
+          root.querySelector("small").textContent = reason ? "Details: " + reason : "";
+          var button = document.getElementById("boot-retry");
+          button.addEventListener("click", retry);
+          button.focus();
+        }
+        window.squeekBoot = {
+          mounted: function () { done = true; },
+          fail: fail,
+          retry: retry,
+        };
+        window.addEventListener("error", function (e) {
+          if (e && e.message) fail(String(e.message).slice(0, 200));
+        });
+        window.addEventListener("unhandledrejection", function (e) {
+          var r = e && e.reason;
+          fail(String((r && r.message) || r || "Unknown error").slice(0, 200));
+        });
+        setTimeout(function () {
+          fail("The game took more than 20 seconds to load. Check your connection.");
+        }, 20000);
+      })();
+    </script>
+  </body>
+</html>
