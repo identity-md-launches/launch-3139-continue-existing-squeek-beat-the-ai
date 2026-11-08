@@ -1,5 +1,7 @@
 # Validation of the DNS continuation and missing-export repair
 
+**DNS documentation revision, 2026-11-08:** The four missing DNS evidence files have been delivered, with a fresh literal `dig` result (exit 9) and Google/Cloudflare HTTPS TXT responses (NOERROR, CNAME only, no requested TXT). The [current DNS handoff](artifacts/dns-verification.md) and the inline README record the exact supplied record and conditional custom-domain alternative. No site or DNS change was made. Build, typecheck, browser, and interaction results below are historical repair results, not reruns for this documentation revision; their non-DNS evidence files are absent from this checkout. No new UI or build validation is claimed.
+
 **Overall status: incomplete.** The missing production export is repaired and the existing game is preserved. DNS ownership verification is not complete: this session cannot write authoritative DNS, and neither public resolver returned the requested TXT value. Browser rendering also remains unverified in this runtime. Results below are this worker's observations, not independent certification.
 
 ## Scope and provenance
@@ -83,6 +85,6 @@ The delivered tree includes source, unchanged manifest/lockfile, required schema
 
 The only ignore-file change has an explicit **256-byte `.gitignore` budget**; actual size is **94 bytes**. It excludes dependency and generated cache directories at every depth, compiler caches and scratch. `dist/` is not ignored. No dependency archive, registry mirror, cache, installed dependency directory, symlink or submodule is added to the delivery. Scratch installs/downloads and the entire scratch build are excluded and removed before submission.
 
-The exact hostname and requested value are documented in the [DNS report](artifacts/dns-verification.md), together with actual dig output and a conditional owner-controlled custom-domain/DNSLink setup if IMD cannot support TXT records. That alternative was not performed and cannot verify this exact IMD hostname. This session's lack of write capability does not establish a platform-wide inability to host TXT records. No requester-only value is missing, so no placeholder or blocked-input file was created.
+The exact hostname and requested value are documented in the [DNS report](artifacts/dns-verification.md), together with actual dig output and a conditional owner-controlled custom-domain alternative if IMD confirms TXT publication is unsupported. IMD must explicitly confirm and configure custom-domain support for this existing site, and Genesis must issue the corresponding verification hostname and value for the new domain before the owner can publish and verify that TXT at its authoritative DNS provider. Custom-domain support is unconfirmed. This alternative was not performed and cannot verify the original IMD hostname. This session's lack of write capability does not establish a platform-wide inability to host TXT records. No requester-only value is missing, so no placeholder or blocked-input file was created.
 
 **The reported missing-output defect is fixed. Genesis ownership verification is still incomplete.**

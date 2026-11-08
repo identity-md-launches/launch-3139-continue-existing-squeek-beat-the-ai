@@ -4,6 +4,8 @@ Squeek Beat-the-AI Predictor is a community project for the Squeekchain Buildooo
 
 **DNS verification is incomplete.** This session could not publish the requested TXT record. Google and Cloudflare returned a CNAME, with no matching TXT value. IMD's DNS operator must add the exact record below and keep it permanently. No DNS record, live domain, game rule, application code, or visual design was changed.
 
+The **2026-11-08 documentation revision** delivers the missing DNS evidence and conditional fallback below. Build and interaction results elsewhere in this README describe the previous repair; they were not rerun for this documentation-only change. Current checks and remaining limitations are in the [DNS handoff](artifacts/dns-verification.md#revision-scope-and-validation).
+
 This repair restores the missing `dist/index.html`, its complete assets, source, package manifest and lockfile from the **existing fixed build**. It is not a new game or launch. The fixed build's public [IMD job result](https://api.imd.fun/jobs/b7fd99d8-31ac-4482-ad29-d3dfd6095e80/result) identifies [the fixed source repository](https://github.com/identity-md-launches/launch-3136-continue-existing-squeek-beat-the-ai/tree/3db1ea0dd69e988b50fff608001a5d95b9537041). All ten restored export files match downloads from the [existing live site](https://squeek-beat-the-ai-predicto-b7fd.imd.site/) byte for byte. Provenance and SHA-256 hashes are in [artifacts/restoration.json](artifacts/restoration.json). The originally supplied [launch-3134 repository](https://github.com/identity-md-launches/launch-3134-build-publish-squeek-beat-the-ai) contains an older export and was not substituted for the fixed game.
 
 Built through the IdentityMD contributor network ([imd.fun](https://imd.fun)). Preserve the community-project sentence and contributor attribution in redistributed source and the published site. No Genesis verification, approval, badge, whitelist, airdrop or reward is claimed.
@@ -20,7 +22,47 @@ Built through the IdentityMD contributor network ([imd.fun](https://imd.fun)). P
 | Retention | Permanent; the request says Genesis rechecks daily |
 | Deadline supplied | November 15, 10:54 AM; timezone unspecified |
 
-[DNS findings and the conditional custom-domain alternative](artifacts/dns-verification.md), [actual dig output](artifacts/dig.txt), [timestamped resolver responses](artifacts/dns-verification.json), and [the unapplied record specification](artifacts/requested-record.json) are included. These files do not configure authoritative DNS. The owner cannot add this IMD-controlled record at a different DNS provider.
+### Lookup evidence from this revision
+
+Checked **2026-11-08 at 04:36:07 UTC**. The literal command was:
+
+```sh
+dig TXT _squeekchain.squeek-beat-the-ai-predicto-b7fd.imd.site
+```
+
+It exited **9**, with empty stderr and this actual stdout:
+
+```text
+;; UDP setup with 46.38.252.230#53(46.38.252.230) for _squeekchain.squeek-beat-the-ai-predicto-b7fd.imd.site failed: network unreachable.
+;; no servers could be reached
+;; UDP setup with 46.38.252.230#53(46.38.252.230) for _squeekchain.squeek-beat-the-ai-predicto-b7fd.imd.site failed: network unreachable.
+;; no servers could be reached
+;; UDP setup with 46.38.252.230#53(46.38.252.230) for _squeekchain.squeek-beat-the-ai-predicto-b7fd.imd.site failed: network unreachable.
+;; UDP setup with 46.38.225.230#53(46.38.225.230) for _squeekchain.squeek-beat-the-ai-predicto-b7fd.imd.site failed: network unreachable.
+;; UDP setup with 2a03:4000:8000::fce6#53(2a03:4000:8000::fce6) for _squeekchain.squeek-beat-the-ai-predicto-b7fd.imd.site failed: network unreachable.
+;; no servers could be reached
+```
+
+This is a local UDP lookup failure, not a DNS answer or evidence that IMD cannot support TXT records. Independent HTTPS TXT queries to [Google](https://dns.google/resolve?name=_squeekchain.squeek-beat-the-ai-predicto-b7fd.imd.site&type=TXT) and [Cloudflare](https://cloudflare-dns.com/dns-query?name=_squeekchain.squeek-beat-the-ai-predicto-b7fd.imd.site&type=TXT) both returned HTTP 200 and DNS `Status: 0` (NOERROR):
+
+| Resolver | Answers to the TXT query | Requested value returned? |
+| --- | --- | --- |
+| Google | One type-5 CNAME to `6vqfumox.up.railway.app.`; zero type-16 TXT answers | No |
+| Cloudflare | One type-5 CNAME to `6vqfumox.up.railway.app.`; zero type-16 TXT answers | No |
+
+**The required TXT value does not resolve in either observed public response; Genesis verification remains incomplete.** No DNS write tool is available in this session. IMD's ability to publish this TXT record remains unconfirmed; no claim of platform-wide non-support is made. IMD's DNS operator must publish the exact record above and retain it permanently, preserving the existing website and every other record. The owner cannot add this IMD-controlled record at a different DNS provider.
+
+The [DNS report](artifacts/dns-verification.md), [full dig transcript](artifacts/dig.txt), [timestamped resolver responses](artifacts/dns-verification.json), and [unapplied record specification](artifacts/requested-record.json) are delivered with this revision. These are evidence and handoff documents; they do not configure authoritative DNS.
+
+### Conditional alternative if IMD confirms TXT publication is unsupported
+
+1. Use a domain controlled by the site owner, with access to its authoritative DNS provider.
+2. Have IMD explicitly confirm custom-domain support and configure support for serving **this existing site** at that domain. Obtain the actual hosting DNS records from IMD; do not guess a target or change the existing IMD mapping.
+3. Register that owner-controlled domain in Genesis and obtain its corresponding verification hostname and TXT value. Do not assume that the token supplied for the IMD hostname applies to a different domain.
+4. Publish the new Genesis TXT record at that domain's authoritative DNS provider and keep it permanently.
+5. Run `dig TXT` with the exact new hostname issued by Genesis, confirm the exact new value is returned publicly, and complete verification in Genesis.
+
+**Custom-domain support is unconfirmed. This alternative does not verify `_squeekchain.squeek-beat-the-ai-predicto-b7fd.imd.site` or the original IMD hostname.** These are conditional handoff steps, not actions performed in this revision. No site, domain mapping, or DNS record was changed during this review.
 
 After IMD's operator publishes the record, check:
 
